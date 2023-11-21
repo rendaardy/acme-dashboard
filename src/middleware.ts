@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 
-import { auth } from "./auth.ts";
+import { authConfig } from "./auth.config.ts";
 
-export default auth;
+export default NextAuth(authConfig).auth;
 
 export const config = {
 	matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
