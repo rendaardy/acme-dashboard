@@ -4,8 +4,10 @@ import { sql } from "@vercel/postgres";
 import type {
 	CustomerField,
 	CustomersTable,
+	FormattedCustomersTable,
 	InvoiceForm,
 	InvoicesTable,
+	LatestInvoice,
 	LatestInvoiceRaw,
 	User,
 	Revenue,
@@ -35,7 +37,7 @@ export async function fetchRevenue(): Promise<Array<Revenue>> {
 	}
 }
 
-export async function fetchLatestInvoices(): Promise<Array<LatestInvoiceRaw>> {
+export async function fetchLatestInvoices(): Promise<Array<LatestInvoice>> {
 	noStore();
 	try {
 		const data = await sql<LatestInvoiceRaw>`
@@ -157,7 +159,9 @@ export async function fetchInvoicesPages(query: string): Promise<number> {
 	}
 }
 
-export async function fetchInvoiceById(id: string): Promise<Invoice> {
+export async function fetchInvoiceById(
+	id: string,
+): Promise<InvoiceForm | undefined> {
 	noStore();
 	try {
 		const data = await sql<InvoiceForm>`
@@ -182,7 +186,7 @@ export async function fetchInvoiceById(id: string): Promise<Invoice> {
 	}
 }
 
-export async function fetchCustomers(): Promise<Array<CustomersField>> {
+export async function fetchCustomers(): Promise<Array<CustomerField>> {
 	noStore();
 	try {
 		const data = await sql<CustomerField>`
@@ -203,7 +207,7 @@ export async function fetchCustomers(): Promise<Array<CustomersField>> {
 
 export async function fetchFilteredCustomers(
 	query: string,
-): Promise<Array<CustomersTable>> {
+): Promise<Array<FormattedCustomersTable>> {
 	noStore();
 	try {
 		const data = await sql<CustomersTable>`
